@@ -6,8 +6,8 @@ const textVisitorsProvider = new TextVisitorsProvider();
 const getQuantityOfVisitorsUseCase = new GetQuantityOfVisitorsUseCase(
   textVisitorsProvider
 );
-const gettQuantityOfVisitorsController = new GetQuantityOfVisitorsController(
+const getQuantityOfVisitorsController = new GetQuantityOfVisitorsController(
   getQuantityOfVisitorsUseCase
 );
 
-export { gettQuantityOfVisitorsController };
+export { getQuantityOfVisitorsController };

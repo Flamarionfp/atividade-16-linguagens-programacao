@@ -1,6 +1,8 @@
 import { FastifyInstance } from "fastify";
-import { gettQuantityOfVisitorsController } from "../controllers/get-quantity-of-visitors";
+import { getQuantityOfVisitorsController } from "../controllers/get-quantity-of-visitors";
+import { updateQuantityOfVisitorsController } from "../controllers/update-quantity-of-visitors";
 
 export async function visitorsRoutes(app: FastifyInstance) {
-  app.get("/visitors", gettQuantityOfVisitorsController.handle);
+  app.get("/visitors", getQuantityOfVisitorsController.handle);
+  app.patch("/visitors", updateQuantityOfVisitorsController.handle);
 }

@@ -12,6 +12,9 @@ export class TextVisitorsProvider implements VisitorRepository {
   };
 
   updateCount = async (): Promise<void> => {
-    throw new Error("Method not implemented.");
+    const currentQuantityOfVisitors = await this.getCount();
+    const updatedData = currentQuantityOfVisitors + 1;
+
+    fs.writeFileSync(this.filePath, updatedData.toString());
   };
 }
