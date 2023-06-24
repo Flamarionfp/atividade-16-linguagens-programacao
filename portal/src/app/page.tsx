@@ -1,15 +1,77 @@
 import Accordion from "@/components/accordion";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import InfoInput from "@/components/info-input";
+import { VisitorsResponse } from "@/types/visitors";
 import { Facebook, Instagram, Linkedin, Mail } from "lucide-react";
 import Image from "next/image";
+export default async function Home() {
+  const response = await fetch("http://localhost:3333/visitors", {
+    cache: "no-store",
+  });
+  const data: VisitorsResponse = await response.json();
 
-export default function Home() {
+  const inputData = [
+    {
+      label: "Nome",
+      value: "Flamarion Fagundes Pinto",
+    },
+    {
+      label: "Idade",
+      value: "20",
+    },
+    {
+      label: "E-mail",
+      value: "flamarionpinto@sou.faccat.br",
+    },
+    {
+      label: "Telefone",
+      value: "(54) 99690-8625",
+    },
+    {
+      label: "Website",
+      value: "https://portifolio-steel-ten.vercel.app/",
+    },
+  ];
+
+  const socialMedia = [
+    {
+      link: "https://www.facebook.com/flamarion.fagundes.1/",
+      icon: <Facebook className="text-white" />,
+    },
+    {
+      link: "https://www.instagram.com/flamarionfagundes/",
+      icon: <Instagram className="text-white" />,
+    },
+    {
+      link: "https://www.linkedin.com/in/flamarion-fagundes-pinto-7b0b3a1b2/",
+      icon: <Linkedin className="text-white" />,
+    },
+    {
+      link: "mailto:",
+      icon: <Mail className="text-white" />,
+    },
+  ];
+
+  const accordionData = [
+    {
+      title: "Formação Academica",
+      content: ["Faccat - Sistemas de Informação (Cursando)"],
+      defaultOpen: true,
+    },
+    {
+      title: "Experiencia Profissional",
+      content: [
+        "Lighthouse IT - Estágio - maio 2021 - 9 meses",
+        "Lighthouse IT - Desenvolvedor Frontend - janeiro 2022 - 1 ano 6 meses (atualmente trabalhando)",
+      ],
+      defaultOpen: false,
+    },
+  ];
+
   return (
     <div className="h-[100%] bg-white">
-      <header className="bg-[#1D232A] p-4 flex justify-center items-center">
-        <a className="text-white" href="#visitors">
-          Ver quantidade de acessos
-        </a>
-      </header>
+      <Header />
       <main className="w-screen flex flex-col items-center justify-center py-10">
         <div className="grid grid-cols-2 bg-white shadow-2xl rounded-md">
           <Image
@@ -21,106 +83,42 @@ export default function Home() {
           />
           <div className="relative">
             <div className="flex flex-col gap-4 py-4 px-6">
-              <div>
-                <label className="font-bold">Nome</label>
-                <input
-                  value="Flamarion Fagundes Pinto"
-                  readOnly
-                  type="text"
-                  className="input w-full bg-gray-200"
+              {inputData.map((input) => (
+                <InfoInput
+                  key={input.label}
+                  label={input.label}
+                  value={input.value}
                 />
-              </div>
-              <div>
-                <label className="font-bold">Idade</label>
-                <input
-                  value="20"
-                  readOnly
-                  type="text"
-                  className="input w-full bg-gray-200"
-                />
-              </div>
-              <div>
-                <label className="font-bold">E-mail</label>
-                <input
-                  value="flamarionpinto@sou.faccat.br"
-                  readOnly
-                  type="text"
-                  className="input w-full bg-gray-200"
-                />
-              </div>
-              <div>
-                <label className="font-bold">Telefone</label>
-                <input
-                  value="(54) 99690-8625"
-                  readOnly
-                  type="text"
-                  className="input w-full bg-gray-200"
-                />
-              </div>
-              <div>
-                <label className="font-bold">Website</label>
-                <input
-                  value="https://portifolio-steel-ten.vercel.app/"
-                  readOnly
-                  type="text"
-                  className="input w-full bg-gray-200"
-                />
-              </div>
+              ))}
             </div>
             <div className="bg-green-500 min-h-[50px] flex justify-around items-center absolute bottom-0 w-full px-6">
-              <a>
-                <Facebook className="text-white" />
-              </a>
-              <a>
-                <Instagram className="text-white" />
-              </a>
-              <a>
-                <Linkedin className="text-white" />
-              </a>
-              <a>
-                <Mail className="text-white" />
-              </a>
+              {socialMedia.map((social) => (
+                <a key={social.link} href={social.link}>
+                  {social.icon}
+                </a>
+              ))}
             </div>
           </div>
         </div>
         <section className="my-8 flex flex-col gap-2">
-          <Accordion defaultOpen title="Formação Academica">
-            <ul>
-              <li>
-                <p>
-                  <b>Faccat</b> - Sistemas de Informação (Cursando)
-                </p>
-              </li>
-            </ul>
-          </Accordion>
-          <Accordion title="Experiencia Profissional">
-            <p>
+          {accordionData.map((accordion) => (
+            <Accordion
+              key={accordion.title}
+              defaultOpen={accordion.defaultOpen}
+              title="Formação Academica"
+            >
               <ul>
-                <li>
-                  <p>
-                    <b>Lighthouse IT</b> - Estágio - maio 2021 - 9 meses
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <b>Lighthouse IT</b> - Desenvolvedor Frontend - janeiro 2022
-                    - 1 ano 6 meses (atualmente trabalhando)
-                  </p>
-                </li>
+                {accordion.content.map((content) => (
+                  <li key={content}>
+                    <p>{content}</p>
+                  </li>
+                ))}
               </ul>
-            </p>
-          </Accordion>
+            </Accordion>
+          ))}
         </section>
       </main>
-      <footer
-        style={{ padding: 0 }}
-        className="flex items-center justify-center w-full pb-6 text-white bg-[#1D232A] bottom-0 h-[60px]"
-      >
-        <section id="visitors">
-          <span>Quantidade de acessos:</span>
-          <span className="font-bold ml-1">{`${10}`}</span>
-        </section>
-      </footer>
+      <Footer quantityOfVisitors={data?.quantityOfVisitors} />
     </div>
   );
 }
